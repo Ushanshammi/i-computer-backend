@@ -136,6 +136,7 @@ export function getProductByID(req,res){
                 res.json(product)
             }
         }
+        // catch
     ).catch(
             (error)=>{
                 res.status(500).json({
