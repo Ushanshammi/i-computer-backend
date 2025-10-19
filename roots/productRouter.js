@@ -9,4 +9,5 @@ productRouter.put("/:productID",updateProduct);
 productRouter.delete("/:productID",deleteProduct);
 productRouter.get("/:productID",getProductByID)
 
+//export
 export default productRouter;
