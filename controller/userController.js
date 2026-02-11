@@ -1,9 +1,14 @@
 import User from "../models/User.js";
 import bcrypt from "bcrypt" //hashing package
 import jwd from "jsonwebtoken"//web token package
+import dotenv from "dotenv";
+dotenv.config();
 
 export function createUser(req,res){
 
+
+
+    
     const  data=req.body
     const hashPassword=bcrypt.hashSync(data.password,10)//hashing password
 
@@ -67,7 +72,7 @@ export function loginUser(req,res){
                     Image:user.image
                  };
 
-                    const token=jwd.sign(payload,"secretKey96$2025",
+                    const token=jwd.sign(payload,process.env.JWT_KEY,//jwtkey give index.js
                         {
                             expiresIn:"3000s"//token exprie time
                         }
@@ -77,7 +82,9 @@ export function loginUser(req,res){
 
                     res.json({
                         message:"login successful",
-                        token:token //login user id
+                        token:token, //login user id
+                        role:user.role
+                        
                     })
                 }else{
                     res.status(401).json({

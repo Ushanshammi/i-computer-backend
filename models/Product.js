@@ -41,10 +41,15 @@ const productSchema=new mongoose.Schema(
             type:String,
             required:true
         },
+        model:{
+            type:String,
+            required:true,
+            default:"standerd"
+        },
         brand:{
             type:String,
             required:true,
-            default:"No Brand"
+            default:"Genertic"
         },
         stock:{
             type:Number,
@@ -62,5 +67,5 @@ const productSchema=new mongoose.Schema(
 
 //model file
 
-const product=mongoose.model("Product",productSchema);
-export default product;
+const Product=mongoose.model("products",productSchema);
+export default Product;

@@ -4,6 +4,11 @@ import { createProduct, deleteProduct, getAllProducts, getProductByID, updatePro
 const productRouter=express.Router();
 //routers
 productRouter.get("/",getAllProducts);
+
+productRouter.get("/trending",(req,res)=>{
+    res.json({message:"trending products endpoint"})
+})
+
 productRouter.post("/",createProduct);
 productRouter.put("/:productID",updateProduct);
 productRouter.delete("/:productID",deleteProduct);

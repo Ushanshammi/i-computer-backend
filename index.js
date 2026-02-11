@@ -1,11 +1,20 @@
 import express, { request, response } from "express";
 import mongoose from "mongoose";
-
+import cors from "cors";
+import dotenv from "dotenv";
 import userRouter from "./roots/userRouter.js";
-import jwt from "jsonwebtoken"
+import jwt from "jsonwebtoken";
 import productRouter from "./roots/productRouter.js";
 
-const conurl="mongodb+srv://admin:1234@cluster0.qo5vyec.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0";//ushan is db name
+
+
+dotenv.config();
+const conurl=process.env.MONGO_URL;
+
+
+
+
+
 mongoose.connect(conurl).then(
     ()=>{
         console.log("connected to mongodb");
@@ -14,7 +23,7 @@ mongoose.connect(conurl).then(
 
 
 const app = express();
-
+app.use(cors()) //handel request
 
 app.use(express.json());//middle whare
 
@@ -25,15 +34,18 @@ app.use(
        
         if(authorizationheader!=null){
 
-                const token=authorizationheader.replace("Bearer ","")
-             
 
-                jwt.verify(token,"secretKey96$2025",
+                const token=authorizationheader.replace("Bearer ","")
+           
+               
+                
+
+                jwt.verify(token,process.env.JWT_KEY,
                     (error,content)=>{
                            if(content==null){
 
                             console.log("invalid token")
-                            res.json({
+                            res.status(401).json({
                                 message:"invalid token"
                             })
                            
@@ -60,8 +72,8 @@ app.use(
 
 
 
-app.use("/users",userRouter);
-app.use("/products",productRouter);
+app.use("/api/users",userRouter);
+app.use("/api/products",productRouter);
 
 
 app.listen(3000,
